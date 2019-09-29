@@ -8,10 +8,15 @@ pytest="~=3.9"
 flit = "*"
 
 [packages]
-numpy="~=1.17"
-pandas="~=0.25"
-xarray="~=0.13"
-scipy="~=1.3"
+numpy=">=1.17"
+pandas=">=0.25"
+xarray=">=0.13"
+scipy=">=1.3"
+statsmodels=">=0.10"
+jupyterlab=">=1.1"
+matplotlib=">=3.0"
+ipykernel = "*"
+jupyter-contrib-nbextensions = "*"
 
 [requires]
 python_version = "3.6"
