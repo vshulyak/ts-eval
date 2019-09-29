@@ -1,9 +1,9 @@
 import numpy as np
-
 import pytest
 
 from ts_eval.viz.data_containers import xr_2d_factory, xr_3d_factory
 from ts_eval.viz.utils import time_align
+
 
 """
 xarray format checks
