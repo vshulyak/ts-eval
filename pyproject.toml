@@ -1,23 +1,7 @@
 [build-system]
-requires = ["flit"]
-build-backend = "flit.buildapi"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.flit.metadata]
-module = "ts-eval"
-author = "Vladimir Shulyak"
-author-email = "vladimir@shulyak.net"
-home-page = "http://shulyak.net"
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent"
-]
-requires = [
-  "pandas >= 0.25.0",
-  "numpy >= 1.17.0"
-]
-description="Time Series analysis and evaluation tools"
-description-file="README.md"
 
 [tool.black]
 line-length = 88
