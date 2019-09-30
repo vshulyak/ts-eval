@@ -4,9 +4,10 @@ from operator import itemgetter
 from statsmodels.iolib.table import SimpleTable
 
 from ..utils import nphash
+from . import BaseComponent
 
 
-class DatasetDescriptionComponent(object):
+class DatasetDescriptionComponent(BaseComponent):
     component_type = "description"
 
     def __init__(
@@ -27,7 +28,9 @@ class DatasetDescriptionComponent(object):
         self.time_format = time_format
         self.hash_base = hash_base
 
-    def _repr_html_(self):
+        self.data_container = None
+
+    def display(self):
 
         now = datetime.now()
 

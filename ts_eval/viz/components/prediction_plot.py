@@ -7,15 +7,16 @@ from IPython.core.pylabtools import print_figure
 from matplotlib._pylab_helpers import Gcf
 from pandas.plotting import register_matplotlib_converters
 
+from . import BaseComponent
 
-class PredictionPlotComponent(object):
+
+class PredictionPlotComponent(BaseComponent):
     component_type = "plot"
 
     template = """
         <img src='data:image/png;base64,{point_graph_data}'>
     """
 
-    # TODO: visualize all time_slices
     def __init__(self, target, preds, points, time_slices, names, figsize):
         self.target = target
         self.preds = preds
@@ -24,7 +25,7 @@ class PredictionPlotComponent(object):
         self.names = names
         self.figsize = figsize
 
-    def _repr_html_(self):
+    def display(self):
 
         # modifies global matplotlib unit registry. A warning is raised
         # if this line doesn't exist. Probably, there's a better way to handle

@@ -19,7 +19,7 @@ def test_api__smoke(dataset_2d, dataset_3d):
         )
         .for_horizons(0, 1, 5, 23)
         .for_time_slices(time_slices.all, time_slices.weekend)
-        .with_decription()
+        .with_description()
         .with_metrics(metrics.FVrMSE, metrics.FVrMAE, metrics.FVrMIS)
         .with_predictions_plot()
         .show()

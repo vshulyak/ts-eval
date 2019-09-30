@@ -53,13 +53,13 @@ class JupyterHTMLLayout(object):
         right_plot_area = []
         footer = []
 
-        for c in self.components:
+        for c in self.components.values():
             if c.component_type == "description":
-                left_plot_area.append(c._repr_html_())
+                left_plot_area.append(c.display())
             elif c.component_type == "plot":
-                right_plot_area.append(c._repr_html_())
+                right_plot_area.append(c.display())
             else:
-                footer.append(c._repr_html_())
+                footer.append(c.display())
 
         return self.style + template.format(
             **{

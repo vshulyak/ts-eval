@@ -2,8 +2,10 @@ from collections import OrderedDict
 
 from statsmodels.iolib.table import SimpleTable
 
+from . import BaseComponent
 
-class MetricsComponent(object):
+
+class MetricsComponent(BaseComponent):
     component_type = "metrics"
 
     def __init__(
@@ -40,17 +42,9 @@ class MetricsComponent(object):
             metric_res = metric(target, reference_pred, pred, points=self.points)
             self.point_metric_dict[metric.name] = metric_res
 
-    def _format_list_of_numbers(self, num_lst):
-        return [
-            self.number_format % el[0] + self._format_asterisk(el[1]) for el in num_lst
-        ]
+        return self.point_metric_dict
 
-    def _format_asterisk(self, val):
-        return "*" if val else "&nbsp;"
-
-    def _repr_html_(self):
-
-        self.compute()
+    def display(self):
 
         # Reformat the data in the following way:
         # - transpose
@@ -75,3 +69,11 @@ class MetricsComponent(object):
         t.insert(1, ["Overall"] + overall_data, datatype="header")
 
         return t.as_html()
+
+    def _format_list_of_numbers(self, num_lst):
+        return [
+            self.number_format % el[0] + self._format_asterisk(el[1]) for el in num_lst
+        ]
+
+    def _format_asterisk(self, val):
+        return "*" if val else "&nbsp;"
