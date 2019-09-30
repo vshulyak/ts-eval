@@ -8,7 +8,7 @@ Recommended development workflow:
 pipenv install -e .[dev]
 pipenv shell
 ```
-The library doesn't use Flit/Poetry, so the suggested workflow is based on Pipenv (as per https://github.com/pypa/pipenv/issues/1911). 
+The library doesn't use Flit/Poetry, so the suggested workflow is based on Pipenv (as per https://github.com/pypa/pipenv/issues/1911).
 Pipfile* are ignored in the .gitignore.
 
 
@@ -17,8 +17,6 @@ Pipfile* are ignored in the .gitignore.
 # TODO:
 
 * metrics:
-  * Independent metrics from Viz. Factories to make Viz compliant metrics.
-  * Copy over SMAPE, etc.
   * Reference baseline prediction should be optional
   * Baseline prediction using target dataset (without explicit calculation, but losing some time points)
 * components
@@ -47,6 +45,10 @@ Pipfile* are ignored in the .gitignore.
   * badges
   * changelog
   * pypi release
+
+next scope:
+* sMAPE & MASE can be added for the jupyter evaluation tables
+
 
 
 For multiple comparisons:
