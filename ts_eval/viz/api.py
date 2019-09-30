@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from . import time_slices as default_time_slices
 from .components.dataset_description import DatasetDescriptionComponent
 from .components.metrics import MetricsComponent
 from .components.prediction_plot import PredictionPlotComponent
@@ -12,7 +13,6 @@ class TSMetrics(object):
     Builder interface for merics components
     """
 
-    # TODO: typing
     def __init__(self, target, *preds, layout_class=JupyterHTMLLayout):
         self._target = target
         self._preds = preds
@@ -23,7 +23,7 @@ class TSMetrics(object):
         # draw too many graphs without explicit permission
         self.h = self._target.sizes["h"]
         self._points = [0, self.h - 1] if self.h > 2 else 0
-        self._time_slices = []
+        self._time_slices = [default_time_slices.all]
         self._components = OrderedDict()
 
         # TODO: settable with methods
@@ -109,7 +109,7 @@ class TSMetrics(object):
         return self
 
     def show(self):
-        self.compute()
+        self.compute()  # this could be more elegant...
         return self._layout_class(self._components)
 
     def compute(self):

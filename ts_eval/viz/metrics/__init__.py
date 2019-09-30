@@ -22,6 +22,9 @@ METRICS = [
     ),
     partial_with_name(relative_metric, "rMSE", metric_fn=se),
     partial_with_name(relative_metric, "rMAE", metric_fn=ae),
+    partial_with_name(
+        relative_metric, "rMIS", metric_fn=is_, adaptor=adaptor_interval_metric
+    ),
     partial_with_name(relative_metric, "FVrMSE", metric_fn=se, fv=True),
     partial_with_name(relative_metric, "FVrMAE", metric_fn=ae, fv=True),
     partial_with_name(

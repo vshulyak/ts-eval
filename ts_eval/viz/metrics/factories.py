@@ -23,6 +23,12 @@ def adaptor_interval_metric(target: xr.Dataset, pred: xr.Dataset):
     Adapts internal xarray data format to the format of arguments needed for metrics functions.
     Does so for interval metrics.
     """
+    assert hasattr(
+        pred, "upper"
+    ), "Upper bound PI prediction is missing in the data you supplied"
+    assert hasattr(
+        pred, "lower"
+    ), "Lower bound PI predictio is missing in the data you supplied"
     return target.mean_.values, pred.upper.values, pred.lower.values
 
 
@@ -59,6 +65,9 @@ def relative_metric(
     """
     Computes relative metric of two absolute metics (two metrics – reciprocal)
     """
+    assert (
+        base_pred is not None
+    ), "Relative metrics require a base/reference metric to be set"
     points = points or list(range(target.h))
 
     m1 = metric_fn(*adaptor(target, other_pred))

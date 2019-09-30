@@ -1,5 +1,7 @@
+import pytest
+
 from ts_eval.viz import metrics, time_slices
-from ts_eval.viz.api import ts_inspect_3d
+from ts_eval.viz.api import ts_inspect_2d, ts_inspect_3d
 from ts_eval.viz.data_containers import xr_3d_factory
 
 
@@ -27,17 +29,31 @@ def test_api__smoke(dataset_2d, dataset_3d):
     )
 
 
-def test_api__smoke__base_preds(dataset_2d, dataset_3d):
-    dataset_3d_2 = dataset_3d + 1
+def test_api__missing_reference_prediction(dataset_2d):
+    dataset_2d_2 = dataset_2d + 1
 
     start_date = "2000-01-02"
     freq = "H"
 
-    (
-        ts_inspect_3d(
-            dataset_2d, dataset_3d, dataset_3d_2, start_date=start_date, freq=freq
+    with pytest.raises(AssertionError):
+        (
+            ts_inspect_2d(dataset_2d, dataset_2d_2, start_date=start_date, freq=freq)
+            .with_metrics(metrics.rMSE)
+            .show()
+            ._repr_html_()
         )
-        .with_metrics(metrics.FVrMSE, metrics.FVrMIS)
-        .show()
-        ._repr_html_()
-    )
+
+
+def test_api__missing_conf_int(dataset_2d):
+    dataset_2d_2 = dataset_2d + 1
+
+    start_date = "2000-01-02"
+    freq = "H"
+
+    with pytest.raises(AssertionError):
+        (
+            ts_inspect_2d(dataset_2d, dataset_2d_2, start_date=start_date, freq=freq)
+            .with_metrics(metrics.MIS)
+            .show()
+            ._repr_html_()
+        )

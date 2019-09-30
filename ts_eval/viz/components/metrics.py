@@ -37,8 +37,6 @@ class MetricsComponent(BaseComponent):
 
         # in theory, this could be vectorized, but it would make the whole thing too complex for nothing
         for metric in self.metrics:
-            # TODO: assert reference_pred is not none... depending on the metric
-
             metric_res = metric(target, reference_pred, pred, points=self.points)
             self.point_metric_dict[metric.name] = metric_res
 
