@@ -1,7 +1,8 @@
 from functools import partial
 
-from .defs import ae, rMIS, se
-from .factories import absolute_metric, relative_metric
+from ts_eval.metrics import ae, is_, se
+
+from .factories import absolute_metric, adaptor_interval_metric, relative_metric
 
 
 def partial_with_name(fn, name, **kwargs):
@@ -13,10 +14,27 @@ def partial_with_name(fn, name, **kwargs):
     return p
 
 
-MSE = partial_with_name(absolute_metric, "MSE", metric_fn=se)
-MAE = partial_with_name(absolute_metric, "MAE", metric_fn=ae)
-rMSE = partial_with_name(relative_metric, "rMSE", metric_fn=se)
-rMAE = partial_with_name(relative_metric, "rMAE", metric_fn=ae)
-FVrMSE = partial_with_name(relative_metric, "FVrMSE", metric_fn=se, fv=True)
-FVrMAE = partial_with_name(relative_metric, "FVrMAE", metric_fn=ae, fv=True)
-FVrMIS = partial_with_name(rMIS, "FVrMIS", fv=True)
+METRICS = [
+    partial_with_name(absolute_metric, "MSE", metric_fn=se),
+    partial_with_name(absolute_metric, "MAE", metric_fn=ae),
+    partial_with_name(
+        absolute_metric, "MIS", metric_fn=is_, adaptor=adaptor_interval_metric
+    ),
+    partial_with_name(relative_metric, "rMSE", metric_fn=se),
+    partial_with_name(relative_metric, "rMAE", metric_fn=ae),
+    partial_with_name(relative_metric, "FVrMSE", metric_fn=se, fv=True),
+    partial_with_name(relative_metric, "FVrMAE", metric_fn=ae, fv=True),
+    partial_with_name(
+        relative_metric,
+        "FVrMIS",
+        metric_fn=is_,
+        fv=True,
+        adaptor=adaptor_interval_metric,
+    ),
+]
+
+for metric in METRICS:
+    globals()[metric.name] = metric
+
+
+__all__ = [metric.name for metric in METRICS]

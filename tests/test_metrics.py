@@ -1,8 +1,9 @@
 import numpy as np
 
-from ts_eval.viz.metrics.defs import compute_is
+from ts_eval.metrics import is_
 
 
+# fmt: off
 # M4 competition supplied values to verify IS correctness
 # Input
 S1_L = np.array([289, 266, 313, 238, 224, 209, 206, 175, 164, 150, 138, 120, 109, 96, 83, 70, 58, 46])
@@ -14,8 +15,9 @@ Y = np.array([654, 492, 171, 342, 591, 672, 465, 255, 864, 768, 672, 519, 519, 5
 # Expected output
 IS1 = np.array([649, 657, 6359, 711, 784, 805, 834, 866, 903, 928, 956, 984, 1012, 1037, 1063, 1087, 1112, 1136])
 IS2 = np.array([568, 569, 6208, 569, 568, 569, 568, 4329, 569, 569, 569, 569, 569, 568, 569, 568, 569, 648])
+# fmt: on
 
 
 def test_m4_data_mis():
-    assert np.allclose(compute_is(Y, S1_U, S1_L), IS1)
-    assert np.allclose(compute_is(Y, S2_U, S2_L), IS2)
+    assert np.allclose(is_(Y, S1_U, S1_L), IS1)
+    assert np.allclose(is_(Y, S2_U, S2_L), IS2)
