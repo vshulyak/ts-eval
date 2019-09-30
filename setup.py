@@ -12,6 +12,7 @@ INSTALL_REQUIRES = [
     "statsmodels>=0.10",
     "jupyterlab>=1.1",
     "matplotlib>=3.0",
+    "dataclasses",
     "ipykernel",
     "jupyter-contrib-nbextensions",
 ]
