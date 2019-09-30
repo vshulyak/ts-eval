@@ -3,6 +3,8 @@ from typing import Callable, Iterable, Optional
 import numpy as np
 import xarray as xr
 
+from ts_eval.utils import nanmeanw
+
 from ..data_containers import MetricRes
 from ..stats import mw_is_equal
 from ..utils import filter_nan
@@ -38,9 +40,9 @@ def absolute_metric(
     m1 = metric_fn(*adaptor(target, other_pred))
 
     return MetricRes(
-        overall=np.nanmean(m1),
+        overall=nanmeanw(m1),
         overall_is_same=False,
-        steps=np.nanmean(m1[:, points], 0),
+        steps=nanmeanw(m1[:, points], 0),
         steps_is_same=[False for p in points],
     )
 
@@ -62,8 +64,8 @@ def relative_metric(
     m1 = metric_fn(*adaptor(target, other_pred))
     m2 = metric_fn(*adaptor(target, base_pred))
 
-    overall = np.nanmean(m1) / np.nanmean(m2)
-    steps = np.nanmean(m1[:, points], 0) / np.nanmean(m2[:, points], 0)
+    overall = nanmeanw(m1) / nanmeanw(m2)
+    steps = nanmeanw(m1[:, points], 0) / nanmeanw(m2[:, points], 0)
 
     if fv:
         overall = 1 - overall
@@ -72,7 +74,7 @@ def relative_metric(
     return MetricRes(
         overall=overall,
         overall_is_same=mw_is_equal(
-            filter_nan(np.nanmean(m1, 1)), filter_nan(np.nanmean(m2, 1))
+            filter_nan(nanmeanw(m1, 1)), filter_nan(nanmeanw(m2, 1))
         ),
         steps=steps,
         steps_is_same=[

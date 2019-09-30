@@ -1,5 +1,7 @@
 import numpy as np
 
+from .utils import nans_in_same_positions
+
 
 def se(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
     """
@@ -24,9 +26,14 @@ def is_(y: np.ndarray, u: np.ndarray, l: np.ndarray, a=0.05) -> np.ndarray:
     :param l: prediction interval lower bound
     :return: IS
     """
+    assert nans_in_same_positions(y, u, l), "Arrays have NaNs in different positions"
+
     ml = u - l
-    p1 = 2 / a * np.where(y < l, l - y, 0)
-    p2 = 2 / a * np.where(y > u, y - u, 0)
+
+    # NaNs can be in the dataset and this will cause lt/gt comparisons to raise a warning
+    with np.errstate(invalid="ignore"):
+        p1 = 2 / a * np.where(y < l, l - y, 0)
+        p2 = 2 / a * np.where(y > u, y - u, 0)
 
     return ml + p1 + p2
 

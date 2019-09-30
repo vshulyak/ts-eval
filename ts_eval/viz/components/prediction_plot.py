@@ -2,8 +2,10 @@ from base64 import b64encode
 
 # TODO: maybe set matplotlib/IPython as deps... or catch ImportError
 import matplotlib.pyplot as plt
+
 from IPython.core.pylabtools import print_figure
 from matplotlib._pylab_helpers import Gcf
+from pandas.plotting import register_matplotlib_converters
 
 
 class PredictionPlotComponent(object):
@@ -23,6 +25,11 @@ class PredictionPlotComponent(object):
         self.figsize = figsize
 
     def _repr_html_(self):
+
+        # modifies global matplotlib unit registry. A warning is raised
+        # if this line doesn't exist. Probably, there's a better way to handle
+        # this, but for now it's fine.
+        register_matplotlib_converters()
 
         fig, ax = plt.subplots(
             len(self.points), 1, sharex=True, sharey=True, figsize=self.figsize

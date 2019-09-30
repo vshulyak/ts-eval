@@ -25,3 +25,19 @@ def test_api__smoke(dataset_2d, dataset_3d):
         .show()
         ._repr_html_()
     )
+
+
+def test_api__smoke__base_preds(dataset_2d, dataset_3d):
+    dataset_3d_2 = dataset_3d + 1
+
+    start_date = "2000-01-02"
+    freq = "H"
+
+    (
+        ts_inspect_3d(
+            dataset_2d, dataset_3d, dataset_3d_2, start_date=start_date, freq=freq
+        )
+        .with_metrics(metrics.FVrMSE, metrics.FVrMIS)
+        .show()
+        ._repr_html_()
+    )
