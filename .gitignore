@@ -106,3 +106,4 @@ venv.bak/
 
 Pipfile
 Pipfile.lock
+pip-wheel-metadata
