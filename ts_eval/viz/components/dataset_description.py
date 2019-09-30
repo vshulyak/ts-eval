@@ -18,7 +18,6 @@ class DatasetDescriptionComponent(BaseComponent):
         time_slice,
         date_format="%a, %d %b %Y",
         time_format="%H:%M:%S",
-        hash_base=36,
     ):
         self.target = target
         self.pred = pred
@@ -26,7 +25,6 @@ class DatasetDescriptionComponent(BaseComponent):
         self.time_slice = time_slice
         self.date_format = date_format
         self.time_format = time_format
-        self.hash_base = hash_base
 
         self.data_container = None
 
@@ -39,7 +37,7 @@ class DatasetDescriptionComponent(BaseComponent):
             ("Time:", [now.strftime(self.time_format)]),
             ("No. Timepoints:", [self.target.sizes["dt"]]),
             ("Horizon", [self.target.sizes["h"]]),
-            ("Target Hash", [nphash(self.target.mean_)]),
+            ("Target Hash", [nphash(self.target.mean_.values)]),
         ]
 
         return SimpleTable(

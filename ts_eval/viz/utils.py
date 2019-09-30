@@ -1,4 +1,10 @@
+import base64
+import hashlib
+
 import numpy as np
+
+
+NPHASH_MAX_LEN = 10
 
 
 def time_align(arr: np.ndarray):
@@ -45,8 +51,8 @@ def filter_nan(arr: np.ndarray):
     return arr[~np.isnan(arr)]
 
 
-def nphash(arr: np.ndarray, hash_base: int = 36):
+def nphash(arr: np.ndarray):
     """
     Hash from an array
     """
-    return np.base_repr(hash(str(arr)), hash_base)
+    return base64.b64encode(hashlib.sha256(arr).digest())[:NPHASH_MAX_LEN]

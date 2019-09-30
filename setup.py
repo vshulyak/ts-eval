@@ -17,7 +17,7 @@ INSTALL_REQUIRES = [
     "jupyter-contrib-nbextensions",
 ]
 EXTRAS_REQUIRE = {
-    "tests": ["hypothesis", "pytest"],
+    "tests": ["hypothesis[numpy]", "pytest"],
     "debug": ["pdbpp"],
     "extra_runtime_libs": ["holidays>=0.9"],
 }
