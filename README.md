@@ -1,6 +1,17 @@
 # ts-eval
 Time Series analysis and evaluation tools
 
+## Development
+
+Recommended development workflow:
+```
+pipenv install -e .[dev]
+pipenv shell
+```
+The library doesn't use Flit/Poetry, so the suggested workflow is based on Pipenv (as per https://github.com/pypa/pipenv/issues/1911). 
+Pipfile* are ignored in the .gitignore.
+
+
 **WORK IN PROGRESS**
 
 # TODO:
