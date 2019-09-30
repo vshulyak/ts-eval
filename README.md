@@ -17,20 +17,20 @@ Pipfile* are ignored in the .gitignore.
 # TODO:
 
 * metrics:
-  * Reference baseline prediction should be optional
   * Baseline prediction using target dataset (without explicit calculation, but losing some time points)
 * components
-  * refactor components into view/controller, so that computed metrics can be accessed independently
   * Graph: Visualize outliers from confidence interval
   * Graph: plot confint
-  * Metrics: builtin slices with holiday
   * Multi-comparison component: scikit_posthocs lib or homecooked?
   * Residual stats: since I have residuals => Ljung-Box, Heteroscedasticity test, Jarque-Bera – like in statsmodels results.
   * inspect true confidence interval coverage via sampling (was done in postings around bayesian dropout sampling)
   * xarrays: compare if compared datasets are actually equal (offets by dates, shapes, maybe even hashing)
+  * bin together step performance, like steps 0-1, 2-5, 6-12, 13-24
+  * highlight regions using a mask (holidays, etc.)
+  * option to view interactively points using widget (plotly)?
+  * diagnostics: bias to over / underestimate points
 * features
   * tests for fourier
-  * holiday lib integration (lib should be optional)
   * nint generation
 * utils:
   * model adaptor (for different models, generic) which generates 3d prediction dataset. For stastmodels using dyn forecast or kalman filter
@@ -45,6 +45,8 @@ Pipfile* are ignored in the .gitignore.
   * badges
   * changelog
   * pypi release
+  * https://timothycrosley.github.io/portray/ for docs
+
 
 next scope:
 * sMAPE & MASE can be added for the jupyter evaluation tables
