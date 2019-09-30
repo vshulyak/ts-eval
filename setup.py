@@ -16,8 +16,16 @@ INSTALL_REQUIRES = [
     "ipykernel",
     "jupyter-contrib-nbextensions",
 ]
-EXTRAS_REQUIRE = {"tests": ["hypothesis", "pytest"], "debug": ["pdbpp"]}
-EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["debug"]
+EXTRAS_REQUIRE = {
+    "tests": ["hypothesis", "pytest"],
+    "debug": ["pdbpp"],
+    "extra_runtime_libs": ["holidays>=0.9"],
+}
+EXTRAS_REQUIRE["dev"] = (
+    EXTRAS_REQUIRE["tests"]
+    + EXTRAS_REQUIRE["debug"]  # NOQA
+    + EXTRAS_REQUIRE["extra_runtime_libs"]  # NOQA
+)
 
 
 setuptools.setup(
