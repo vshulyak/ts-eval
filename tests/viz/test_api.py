@@ -64,3 +64,17 @@ def test_api__missing_conf_int(dataset_2d):
             .show()
             ._repr_html_()
         )
+
+
+def test_api__without_reference(dataset_2d):
+    dataset_2d_2 = dataset_2d + 1
+
+    start_date = "2000-01-02"
+    freq = "H"
+
+    (
+        ts_inspect_2d(dataset_2d, dataset_2d_2, start_date=start_date, freq=freq)
+        .with_metrics(metrics.MSE)
+        .show()
+        ._repr_html_()
+    )

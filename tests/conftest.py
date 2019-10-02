@@ -4,6 +4,11 @@ import pytest
 from ts_eval.viz.data_containers import xr_2d_factory, xr_3d_factory
 
 
+def mk_1d():
+    np.random.seed(0)
+    return np.random.random((24 * 4 * 2,))
+
+
 def mk_2d():
     np.random.seed(0)
     return np.random.random((24 * 4 * 2, 24))
@@ -12,6 +17,11 @@ def mk_2d():
 def mk_3d():
     np.random.seed(0)
     return np.random.random((24 * 4 * 2, 24, 3))
+
+
+@pytest.fixture(scope="module")
+def dataset_1d():
+    return mk_1d()
 
 
 @pytest.fixture(scope="module")

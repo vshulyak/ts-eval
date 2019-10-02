@@ -1,8 +1,9 @@
 import numpy as np
+
 from scipy.stats import norm
 
 
-def naive(insample: np.ndarray, freq: int = 7, h: int = 10):
+def _naive_with_insample(insample: np.ndarray, freq: int = 1, h: int = 10):
     """
     Computes a naive forecast (with prediction interval).
 
@@ -17,11 +18,31 @@ def naive(insample: np.ndarray, freq: int = 7, h: int = 10):
     return y_hat_naive, np.tile(insample[-freq:], (h // freq) + 1)[:h]
 
 
-def snaive_pi(y: np.ndarray, freq: int = 0, h: int = 1, cl: int = 95):
+def naive_pi(y: np.ndarray, freq: int = 1, h: int = 1, cl: int = 95):
     """
-    Computes a seasonal naive forecast (with prediction interval).
+    Computes naive forecast (with prediction interval).
     """
-    insample, fc = naive(y, freq=freq, h=h)
+    insample, fc = _naive_with_insample(y, freq=freq, h=h)
+    resid = y[freq:] - insample
+    s = np.mean(resid ** 2)
+
+    clp = norm.ppf(0.5 + cl / 200)
+
+    ub, lb = [], []
+
+    for h in range(1, h + 1):
+        p = np.sqrt(s * h)
+        ub += [fc[h - 1] + clp * p]
+        lb += [fc[h - 1] - clp * p]
+
+    return fc, np.array(ub), np.array(lb)
+
+
+def snaive_pi(y: np.ndarray, freq: int = 1, h: int = 1, cl: int = 95):
+    """
+    Computes seasonal naive forecast (with prediction interval).
+    """
+    insample, fc = _naive_with_insample(y, freq=freq, h=h)
     resid = y[freq:] - insample
     s = np.mean(resid ** 2)
 
