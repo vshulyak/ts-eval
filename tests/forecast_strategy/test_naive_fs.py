@@ -7,6 +7,7 @@ from ts_eval.forecast_strategy.naive import (
 
 
 H = 24
+TRAIN_TEST_SPLIT = 100
 
 
 @pytest.mark.parametrize(
@@ -19,9 +20,11 @@ def test_fc_strategy__naive(endog):
     Tests interative prediction on different input data (numpy/pandas/None)
     """
 
-    preds_3d = NaiveForecastStrategy(endog).forecast(h=H)
+    preds_3d = NaiveForecastStrategy(
+        endog, train_test_split_index=TRAIN_TEST_SPLIT
+    ).forecast(h=H)
 
-    assert preds_3d.shape[0] == endog.shape[0] - H
+    assert preds_3d.shape[0] == endog.shape[0] - TRAIN_TEST_SPLIT - H
     assert preds_3d.shape[1] == H
     assert preds_3d.shape[2] == 3
 
@@ -36,8 +39,10 @@ def test_fc_strategy__snaive(endog):
     Tests interative prediction on different input data (numpy/pandas/None)
     """
 
-    preds_3d = SNaiveForecastStrategy(endog).forecast(h=H)
+    preds_3d = SNaiveForecastStrategy(
+        endog, train_test_split_index=TRAIN_TEST_SPLIT
+    ).forecast(h=H)
 
-    assert preds_3d.shape[0] == endog.shape[0] - H
+    assert preds_3d.shape[0] == endog.shape[0] - TRAIN_TEST_SPLIT - H
     assert preds_3d.shape[1] == H
     assert preds_3d.shape[2] == 3
