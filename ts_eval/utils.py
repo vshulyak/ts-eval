@@ -19,3 +19,9 @@ def nanmeanw(arr, axis=None):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=RuntimeWarning)
         return np.nanmean(arr, axis=axis)
+
+
+def create_sliding_dataset(dataset, h=1):
+    """
+    """
+    return np.stack([dataset[i : i + h] for i in range(dataset.shape[0] - h)])
