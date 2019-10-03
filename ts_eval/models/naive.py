@@ -22,6 +22,9 @@ def naive_pi(y: np.ndarray, freq: int = 1, h: int = 1, cl: int = 95):
     """
     Computes naive forecast (with prediction interval).
     """
+    # pandas => numpy if needed
+    y = y.values.reshape(-1) if hasattr(y, "values") else y
+
     insample, fc = _naive_with_insample(y, freq=freq, h=h)
     resid = y[freq:] - insample
     s = np.mean(resid ** 2)
@@ -42,6 +45,9 @@ def snaive_pi(y: np.ndarray, freq: int = 1, h: int = 1, cl: int = 95):
     """
     Computes seasonal naive forecast (with prediction interval).
     """
+    # pandas => numpy if needed
+    y = y.values.reshape(-1) if hasattr(y, "values") else y
+
     insample, fc = _naive_with_insample(y, freq=freq, h=h)
     resid = y[freq:] - insample
     s = np.mean(resid ** 2)
