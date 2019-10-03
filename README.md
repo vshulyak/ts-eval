@@ -1,6 +1,5 @@
-# ts-eval
-Time Series analysis and evaluation tools
----
+# ```ts-eval``` Time Series analysis and evaluation tools
+
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pypi](https://img.shields.io/pypi/v/ts-eval)](https://pypi.org/project/ts-eval/)
 ---
