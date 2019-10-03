@@ -1,17 +1,26 @@
-# TODO: comment out
 import numpy as np
 import pytest
 
-import rpy2.robjects as ro
-
-from rpy2.robjects import numpy2ri
-from rpy2.robjects.conversion import localconverter
-from rpy2.robjects.packages import importr
 from ts_eval.models.naive import naive_pi, snaive_pi
 
 
-forecast = importr("forecast")
-stats = importr("stats")
+"""
+Conditional tests depending on presence of R/rpy2 libs.
+"""
+try:
+    import rpy2
+    import rpy2.robjects as ro  # noqa  # isort:skip
+    from rpy2.robjects import numpy2ri  # noqa  # isort:skip
+    from rpy2.robjects.conversion import localconverter  # noqa  # isort:skip
+    from rpy2.robjects.packages import importr  # noqa  # isort:skip
+except ImportError:
+    pytest.skip("R is not available, skipping", allow_module_level=True)
+
+try:
+    forecast = importr("forecast")
+    stats = importr("stats")
+except rpy2.rinterface_lib.embedded.RRuntimeError:
+    pytest.skip("R-libraries not installed", allow_module_level=True)
 
 
 @pytest.fixture
