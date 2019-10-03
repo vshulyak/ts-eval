@@ -4,10 +4,10 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
-
 import xarray as xr
 
 from .utils import time_align
+
 
 MetricRes = namedtuple(
     "MetricRes", ["overall", "overall_is_same", "steps", "steps_is_same"]

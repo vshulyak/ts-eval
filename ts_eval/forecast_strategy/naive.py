@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from ts_eval.models.naive import naive_pi, snaive_pi
 
@@ -9,10 +10,19 @@ class BaseNaiveForecastStrategy(ForecastStrategy):
     naive_fn = None
 
     def __init__(self, train_endog, train_test_split_index, freq=7, cl=95):
+        super().__init__()
         self.endog = train_endog
         self.train_test_split_index = train_test_split_index
         self.freq = freq
         self.cl = cl
+
+        # TODO: ugly
+        if isinstance(self.endog, pd.DataFrame) and isinstance(
+            self.endog.index, pd.DatetimeIndex
+        ):
+            dt = self.endog[self.train_test_split_index :].index[0].to_pydatetime()
+            self._first_forecast_dt = dt
+            self._freq = self.endog.index.freq
 
     def forecast(self, h, omit_last_horizon=True):
         preds_batched = []
@@ -24,7 +34,8 @@ class BaseNaiveForecastStrategy(ForecastStrategy):
             fc, ub, lb = self.naive_fn(slice_, freq=self.freq, h=h, cl=self.cl)
             preds_batched += [np.stack([ub, fc, lb], 1)]
 
-        return np.stack(preds_batched, 0)
+        self._forecast_result = np.stack(preds_batched, 0)
+        return self
 
 
 class NaiveForecastStrategy(BaseNaiveForecastStrategy):

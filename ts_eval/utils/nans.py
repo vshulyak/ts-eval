@@ -16,12 +16,9 @@ def nans_in_same_positions(*arrays):
 
 
 def nanmeanw(arr, axis=None):
+    """
+    Computes nanmean without raising a warning in case of NaNs in the dataset
+    """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=RuntimeWarning)
         return np.nanmean(arr, axis=axis)
-
-
-def create_sliding_dataset(dataset, h=1):
-    """
-    """
-    return np.stack([dataset[i : i + h] for i in range(dataset.shape[0] - h)])
