@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import pytest
 
 from ts_eval.viz.data_containers import xr_2d_factory, xr_3d_factory
@@ -32,6 +33,19 @@ def dataset_2d():
 @pytest.fixture(scope="module")
 def dataset_3d():
     return mk_3d()
+
+
+@pytest.fixture(scope="module")
+def dataset_1d__pd_index_ordinal(dataset_1d):
+    return pd.DataFrame(dataset_1d)
+
+
+@pytest.fixture(scope="module")
+def dataset_1d__pd_index_datetime(dataset_1d):
+    return pd.DataFrame(
+        dataset_1d,
+        index=pd.date_range("2001-01-01", periods=dataset_1d.shape[0], freq="D"),
+    )
 
 
 @pytest.fixture(scope="module")
