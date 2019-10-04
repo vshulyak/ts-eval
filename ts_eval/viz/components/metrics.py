@@ -32,7 +32,9 @@ class MetricsComponent(BaseComponent):
         self.point_metric_dict = OrderedDict()
 
         target = self.time_slice(self.target)
-        reference_pred = self.time_slice(self.reference_pred)
+        reference_pred = (
+            self.time_slice(self.reference_pred) if self.reference_pred else None
+        )
         pred = self.time_slice(self.pred)
 
         # in theory, this could be vectorized, but it would make the whole thing too complex for nothing
