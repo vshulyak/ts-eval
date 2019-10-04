@@ -72,7 +72,7 @@ class SMForecastStrategy(ForecastStrategy):
             else fc.predicted_mean
         )
 
-        return np.stack([pi[:, 0], mean, pi[:, 1]], 1)
+        return np.stack([pi[:, 1], mean, pi[:, 0]], 1)
 
     def _update(self, updated_endog, updated_exog=None):
         endog = concat_safe(self.model_fit.data.orig_endog[-1:], updated_endog)
