@@ -78,3 +78,20 @@ def test_api__without_reference(dataset_2d):
         .show()
         ._repr_html_()
     )
+
+
+def test_api__slices(dataset_2d, dataset_3d):
+
+    start_date = "2000-01-02"
+    freq = "H"
+
+    (
+        ts_inspect_3d(dataset_2d, dataset_3d, start_date=start_date, freq=freq)
+        .for_horizons(0, 1, 5, 23)
+        .for_time_slices(time_slices.all, time_slices.weekend)
+        .with_description()
+        .with_metrics(metrics.MSE, metrics.MIS)
+        .with_predictions_plot()
+        .show()
+        ._repr_html_()
+    )
