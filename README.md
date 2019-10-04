@@ -13,6 +13,10 @@ A set of tools to help you analyse time series using Python.
 * Naive/Seasonal models for baseline (with prediction intervals)
 * Helper functions to evaluate n-step ahead forecasts using Statsmodels models or naive/seasonal naive models.
 
+
+Check out [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/blob/master/examples/basic_usage.ipynb).
+
+
 ## 📋 Release Planning:
 
 * Release 0.2
