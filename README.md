@@ -15,11 +15,10 @@ A set of tools to help you analyse time series using Python.
 
 ## 📋 Release Planning:
 
-* Release 0.1
-  * meaningful examples notebook
-  * badges
-  * changelog
 * Release 0.2
+  * fix ipynb nbviewer preview
+  * holiday/fourier features model
+  * fix viz module to have less of important stuff
   * a gif with project visualization
   * check shapes of input arrays (target vs preds), now it doesn't raise an error
   * Baseline prediction using target dataset (without explicit calculation, but losing some time points)
