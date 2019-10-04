@@ -55,4 +55,6 @@ def nphash(arr: np.ndarray):
     """
     Hash from an array
     """
-    return base64.b64encode(hashlib.sha256(arr).digest())[:NPHASH_MAX_LEN]
+    return base64.b64encode(hashlib.sha256(arr).digest())[:NPHASH_MAX_LEN].decode(
+        "utf-8"
+    )
