@@ -1,7 +1,11 @@
 # ```ts-eval``` Time Series analysis and evaluation tools
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pypi](https://img.shields.io/pypi/v/ts-eval)](https://pypi.org/project/ts-eval/)
+[![python3](https://img.shields.io/pypi/pyversions/ts-eval)](https://www.python.org/downloads/release/python-374/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License: MIT](https://img.shields.io/pypi/l/ts-eval)](https://github.com/vshulyak/ts-eval/blob/master/LICENSE)
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/vshulyak/ts-eval/issues)
+
 ---
 A set of tools to help you analyse time series using Python.
 
@@ -13,14 +17,19 @@ A set of tools to help you analyse time series using Python.
 * Naive/Seasonal models for baseline (with prediction intervals)
 * Helper functions to evaluate n-step ahead forecasts using Statsmodels models or naive/seasonal naive models.
 
-
 Check out [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/blob/master/examples/basic_usage.ipynb).
+
+## Installation
+
+      pip install ts-eval
 
 
 ## 📋 Release Planning:
 
+
 * Release 0.2
-  * fix ipynb nbviewer preview
+  * green-yellow cells in the table (custom table implementation without statsmodels)
+  * names of datasets passed in (now default ordinal numbers)
   * holiday/fourier features model
   * fix viz module to have less of important stuff
   * a gif with project visualization
@@ -29,6 +38,9 @@ Check out [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/b
   * Graph: plot confint
   * Nemenyi
   * Residual stats: since I have residuals => Ljung-Box, Heteroscedasticity test, Jarque-Bera – like in statsmodels results.
+* Release 0.3
+  * fix presentation logic mixed with compute logic (hard to test)
+
 
 ## 💡 Ideas
 
