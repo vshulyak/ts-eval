@@ -1,6 +1,4 @@
-from collections import OrderedDict
-
-from statsmodels.iolib.table import SimpleTable
+from ts_eval.viz.eval_table import EvalTable
 
 from . import BaseComponent
 
@@ -10,70 +8,72 @@ class MetricsComponent(BaseComponent):
 
     def __init__(
         self,
-        target,
-        pred,
         points,
         time_slice,
         metrics,
-        reference_pred,
         name,
+        metric_res,
+        pred_idx,
         number_format="%#6.3g",
     ):
-        self.target = target
-        self.pred = pred
         self.points = points
         self.time_slice = time_slice
         self.metrics = metrics
-        self.reference_pred = reference_pred
         self.name = name
+        self.metric_res = metric_res
+        self.pred_idx = pred_idx
         self.number_format = number_format
-
-    def compute(self):
-        self.point_metric_dict = OrderedDict()
-
-        target = self.time_slice(self.target)
-        reference_pred = (
-            self.time_slice(self.reference_pred) if self.reference_pred else None
-        )
-        pred = self.time_slice(self.pred)
-
-        # in theory, this could be vectorized, but it would make the whole thing too complex for nothing
-        for metric in self.metrics:
-            metric_res = metric(target, reference_pred, pred, points=self.points)
-            self.point_metric_dict[metric.name] = metric_res
-
-        return self.point_metric_dict
 
     def display(self):
 
-        # Reformat the data in the following way:
-        # - transpose
-        # - convert numbers to strings, for compatibility reasons (SimpleTable)
-        points_tuples = (
-            list(zip(v.steps, v.steps_is_same)) for v in self.point_metric_dict.values()
-        )
-        p_metrics_data = list(map(self._format_list_of_numbers, zip(*points_tuples)))
+        data = []
 
-        t = SimpleTable(
-            data=p_metrics_data,
-            headers=self.point_metric_dict.keys(),
-            stubs=self.points,
-            title=f"Point Metrics – {self.name} – {self.time_slice.name}",
-        )
+        row = []
+        for v in self.metric_res.values():
+            m_overall = v.overall()
+            # TODO: cache
+            eq_overall, _ = v.prediction_rankings()
+            ref_overall, _ = v.ref_equality()
 
-        # a hack to insert another header (could be passed initially, alongside datatypes param, but it fails for me)
-        points_tuples = (
-            (v.overall, v.overall_is_same) for v in self.point_metric_dict.values()
+            value = self.number_format % m_overall[self.pred_idx]
+            rank = eq_overall.ranks[self.pred_idx]
+            equality = eq_overall.equality_bool_mask[self.pred_idx]
+            ref_same = ref_overall[self.pred_idx]
+            row += [self._format_row(value, rank, equality, ref_same, is_header=True)]
+
+        data.append(row)
+
+        for h in self.points:
+            row = []
+            for v in self.metric_res.values():
+                m_steps = v.steps()
+                # TODO: cache
+                _, eq_steps = v.prediction_rankings()
+                _, ref_steps = v.ref_equality()
+
+                value = self.number_format % m_steps[h, self.pred_idx]
+                rank = eq_steps.ranks[h, self.pred_idx]
+                equality = eq_steps.equality_bool_mask[h, self.pred_idx]
+                ref_same = ref_steps[h, self.pred_idx]
+
+                row += [
+                    self._format_row(value, rank, equality, ref_same, is_header=False)
+                ]
+
+            data.append(row)
+
+        t = EvalTable(
+            data=data,
+            headers=self.metric_res.keys(),
+            stubs=["Overall"] + list(self.points),
+            title=f"{self.name} on slice '{self.time_slice.name}'",
         )
-        overall_data = self._format_list_of_numbers(points_tuples)
-        t.insert(1, ["Overall"] + overall_data, datatype="header")
 
         return t.as_html()
 
-    def _format_list_of_numbers(self, num_lst):
-        return [
-            self.number_format % el[0] + self._format_asterisk(el[1]) for el in num_lst
-        ]
+    def _format_row(self, value, rank, equality, ref_same, is_header):
+        color = "green" if rank == 1 and equality is False else None
+        color = "yellow" if rank > 1 and equality is False else None
+        warn_sign = ref_same
 
-    def _format_asterisk(self, val):
-        return "*" if val else "&nbsp;"
+        return (value, color, warn_sign, is_header)
