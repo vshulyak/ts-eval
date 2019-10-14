@@ -1,6 +1,6 @@
 import numpy as np
 
-from ts_eval.viz.stats import mw_is_equal
+from ts_eval.viz.stats.mann_whitney_u import mw_is_equal
 
 
 def test_mw_is_equal__equal_arrays():
