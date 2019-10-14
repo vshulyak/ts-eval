@@ -37,7 +37,8 @@ class MetricsComponent(BaseComponent):
 
             value = self.number_format % m_overall[self.pred_idx]
             rank = eq_overall.ranks[self.pred_idx]
-            equality = eq_overall.equality_bool_mask[self.pred_idx]
+            # cast to get rid of numpy
+            equality = bool(eq_overall.equality_bool_mask[self.pred_idx])
             ref_same = ref_overall[self.pred_idx]
             row += [self._format_row(value, rank, equality, ref_same, is_header=True)]
 
@@ -53,7 +54,8 @@ class MetricsComponent(BaseComponent):
 
                 value = self.number_format % m_steps[h, self.pred_idx]
                 rank = eq_steps.ranks[h, self.pred_idx]
-                equality = eq_steps.equality_bool_mask[h, self.pred_idx]
+                # cast to get rid of numpy
+                equality = bool(eq_steps.equality_bool_mask[h, self.pred_idx])
                 ref_same = ref_steps[h, self.pred_idx]
 
                 row += [
@@ -73,7 +75,7 @@ class MetricsComponent(BaseComponent):
 
     def _format_row(self, value, rank, equality, ref_same, is_header):
         color = "green" if rank == 1 and equality is False else None
-        color = "yellow" if rank > 1 and equality is False else None
+        color = "darkorange" if equality is True else color
         warn_sign = ref_same
 
         return (value, color, warn_sign, is_header)

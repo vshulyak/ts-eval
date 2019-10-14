@@ -28,7 +28,8 @@ class PredictionRankingsComponent(BaseComponent):
         for c in range(m_steps.shape[1]):
             value = self.number_format % m_overall[c]
             rank = eq_overall.ranks[c]
-            equality = eq_overall.equality_bool_mask[c]
+            # cast to get rid of numpy
+            equality = bool(eq_overall.equality_bool_mask[c])
             ref_same = ref_overall[c]
             row += [self._format_row(value, rank, equality, ref_same, is_header=True)]
 
@@ -39,7 +40,8 @@ class PredictionRankingsComponent(BaseComponent):
             for c in range(m_steps.shape[1]):
                 value = self.number_format % m_steps[h, c]
                 rank = eq_steps.ranks[h, c]
-                equality = eq_steps.equality_bool_mask[h, c]
+                # cast to get rid of numpy
+                equality = bool(eq_steps.equality_bool_mask[h, c])
                 ref_same = ref_steps[h, c]
 
                 row += [
@@ -59,7 +61,7 @@ class PredictionRankingsComponent(BaseComponent):
 
     def _format_row(self, value, rank, equality, ref_same, is_header):
         color = "green" if rank == 1 and equality is False else None
-        color = "yellow" if rank > 1 and equality is False else None
+        color = "darkorange" if equality is True else color
         warn_sign = ref_same
 
         return (value, color, warn_sign, is_header)
