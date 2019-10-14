@@ -81,6 +81,13 @@ def friedman(arr: np.ndarray, level=0.95) -> bool:
 
     True = Ha
     """
+    assert arr.ndim == 2
+
+    # a shortcut to skip friedman if all arrays are equal.
+    # Friedman would return NaN in this case, issuing a warning as well.
+    if np.allclose(arr[:, 0], arr.sum(1) / arr.shape[1]):
+        return True
+
     # H0: identical
     # Ha: at least one is different
     pvalue = friedmanchisquare(*arr.T).pvalue
