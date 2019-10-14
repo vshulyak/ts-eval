@@ -33,7 +33,7 @@ def html_formatter(data):
     assert len(data) == 4, "4-item tuple is expected as input"
     value, color, warn_sign, is_text_bold = data
 
-    style = f"style='background: {color}'" if color else ""
+    style = f"style='color: {color}'" if color else ""
     warn_text = "*" if warn_sign else ""
     text = (
         f"<strong>{value}{warn_text}</strong>"
