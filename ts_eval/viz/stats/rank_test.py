@@ -41,7 +41,7 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
     # when we have only one dataset to compare to itself, then there's no need to run any tests...
     # just return ranks
     if f == 1:
-        ranks = np.ones((h, f))
+        ranks = np.ones((h, f), dtype=np.uint8)
         mean_ranks = nanmeanw(arr, 0)
         equality_bool_mask = np.full((h, f), False)
 
@@ -51,7 +51,7 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
 
     pre_test = friedman if f >= 3 else mannwhitney
 
-    ranks = np.empty((h, f))
+    ranks = np.empty((h, f), dtype=np.uint8)
     mean_ranks = np.empty((h, f))
     equality_bool_mask = np.empty((h, f), dtype=np.bool)
 

@@ -21,7 +21,7 @@ def test_rank__singlestep__2series_mw__identical_data(dataset_1d):
     assert res.mean_ranks.shape[0] == 2
     assert res.equality_bool_mask.shape[0] == 2
 
-    assert np.allclose(res.ranks, np.array([2, 1]))
+    assert np.array_equal(res.ranks, np.array([2, 1]))
     assert np.allclose(
         res.equality_bool_mask, np.full_like(res.equality_bool_mask, True)
     )
@@ -37,7 +37,7 @@ def test_rank__singlestep__2series_mw__different_data(dataset_1d):
     assert res.mean_ranks.shape[0] == 2
     assert res.equality_bool_mask.shape[0] == 2
 
-    assert np.allclose(res.ranks, np.array([2, 1]))
+    assert np.array_equal(res.ranks, np.array([2, 1]))
     assert np.allclose(
         res.equality_bool_mask, np.full_like(res.equality_bool_mask, False)
     )
@@ -53,7 +53,7 @@ def test_rank__singlestep__3series_friedman__identical_data(dataset_1d):
     assert res.mean_ranks.shape[0] == 3
     assert res.equality_bool_mask.shape[0] == 3
 
-    assert np.allclose(res.ranks, np.array([1, 2, 3]))
+    assert np.array_equal(res.ranks, np.array([1, 2, 3]))
     assert np.allclose(
         res.equality_bool_mask, np.full_like(res.equality_bool_mask, True)
     )
@@ -69,7 +69,7 @@ def test_rank__singlestep__3series_friedman__different_data(dataset_1d):
     assert res.mean_ranks.shape[0] == 3
     assert res.equality_bool_mask.shape[0] == 3
 
-    assert np.allclose(res.ranks, np.array([3, 1, 2]))
+    assert np.array_equal(res.ranks, np.array([3, 1, 2]))
     assert np.allclose(res.equality_bool_mask, np.array([True, True, False]))
 
 
@@ -89,7 +89,7 @@ def test_rank__multistep__2series_friedman__identical_data(dataset_1d):
     assert res.mean_ranks.shape == (2, 3)
     assert res.equality_bool_mask.shape == (2, 3)
 
-    assert np.allclose(res.ranks, np.array([[1, 2, 3], [1, 2, 3]]))
+    assert np.array_equal(res.ranks, np.array([[1, 2, 3], [1, 2, 3]]))
     assert np.allclose(
         res.equality_bool_mask, np.full_like(res.equality_bool_mask, True)
     )
@@ -111,7 +111,7 @@ def test_rank__multistep__2series_friedman__different_data(dataset_1d):
     assert res.mean_ranks.shape == (2, 3)
     assert res.equality_bool_mask.shape == (2, 3)
 
-    assert np.allclose(res.ranks, np.array([[3, 1, 2], [1, 2, 3]]))
+    assert np.array_equal(res.ranks, np.array([[3, 1, 2], [1, 2, 3]]))
     assert np.allclose(
         res.equality_bool_mask, np.array([[True, True, False], [False, False, False]])
     )
@@ -127,7 +127,7 @@ def test_rank__multistep_1series(dataset_1d):
     assert res.mean_ranks.shape == (4, 1)
     assert res.equality_bool_mask.shape == (4, 1)
 
-    assert np.allclose(res.ranks, np.array([[1], [1], [1], [1]]))
+    assert np.array_equal(res.ranks, np.array([[1], [1], [1], [1]]))
     assert np.allclose(
         res.equality_bool_mask, np.array([[False], [False], [False], [False]])
     )
