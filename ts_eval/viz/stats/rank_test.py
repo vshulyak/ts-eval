@@ -6,6 +6,8 @@ import numpy as np
 from scipy.stats import friedmanchisquare, rankdata
 from statsmodels.stats.libqsturng import qsturng
 
+from ts_eval.utils import nanmeanw
+
 from .mann_whitney_u import mw_is_equal
 
 
@@ -40,7 +42,7 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
     # just return ranks
     if f == 1:
         ranks = np.ones((h, f))
-        mean_ranks = arr.mean(1)
+        mean_ranks = nanmeanw(arr, 0)
         equality_bool_mask = np.full((h, f), False)
 
         return FriedmanNemenyiResult(
@@ -59,8 +61,8 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
 
         if pre_test(step_arr):
             # H0: datasets not different, just return this information in an appropriate way
-            ranks[hi, :] = step_arr.mean(0).argsort() + 1
-            mean_ranks[hi, :] = step_arr.mean(0)
+            ranks[hi, :] = nanmeanw(step_arr, 0).argsort() + 1
+            mean_ranks[hi, :] = nanmeanw(step_arr, 0)
             equality_bool_mask[hi, :] = np.full((f,), True)
 
         else:

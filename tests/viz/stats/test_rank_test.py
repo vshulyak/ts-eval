@@ -115,3 +115,19 @@ def test_rank__multistep__2series_friedman__different_data(dataset_1d):
     assert np.allclose(
         res.equality_bool_mask, np.array([[True, True, False], [False, False, False]])
     )
+
+
+def test_rank__multistep_1series(dataset_1d):
+
+    arr = np.stack([dataset_1d, dataset_1d]).reshape(-1, 4, 1)
+
+    res = rank_test_3d(arr)
+
+    assert res.ranks.shape == (4, 1)
+    assert res.mean_ranks.shape == (4, 1)
+    assert res.equality_bool_mask.shape == (4, 1)
+
+    assert np.allclose(res.ranks, np.array([[1], [1], [1], [1]]))
+    assert np.allclose(
+        res.equality_bool_mask, np.array([[False], [False], [False], [False]])
+    )
