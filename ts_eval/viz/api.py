@@ -1,8 +1,11 @@
 from collections import OrderedDict
 
+from ts_eval.viz.metrics.metric_container import MetricContainer
+
 from . import time_slices as default_time_slices
 from .components.dataset_description import DatasetDescriptionComponent
 from .components.metrics import MetricsComponent
+from .components.prediction_rankings import PredictionRankingsComponent
 from .components.prediction_plot import PredictionPlotComponent
 from .data_containers import xr_2d_factory, xr_3d_factory
 from .layouts.jupyter_html import JupyterHTMLLayout
@@ -27,7 +30,7 @@ class TSMetrics(object):
         self._components = OrderedDict()
 
         # TODO: settable with methods
-        self._names = list(range(len(self._preds)))
+        self._names = [f"Pred {i}" for i in range(len(self._preds))]
 
     def _register_component(self, key, comp):
         if key in self._components:
@@ -76,21 +79,44 @@ class TSMetrics(object):
     def with_metrics(self, *metrics):
         # TODO: assert metrics exist or callable
         # TODO: assert point metrics available for this container
-        for i, d in enumerate(self._preds):
-            for s in self._time_slices:
+        cnt = MetricContainer.build(
+            self._target, self._ref, self._preds, self._time_slices, metrics
+        )
+
+        for s in self._time_slices:
+            for i, d in enumerate(self._preds):
                 self._register_component(
                     f"metrics_{i}_{s.name}",
                     MetricsComponent(
-                        target=self._target,
-                        pred=d,
                         points=self._points,
                         time_slice=s,
-                        reference_pred=self._ref,
                         name=self._names[i],
                         metrics=metrics,
+                        metric_res=cnt.metric_res[s],
+                        pred_idx=i,
                     ),
                 )
 
+        return self
+
+    def with_prediction_rankings(self, *metrics):
+
+        cnt = MetricContainer.build(
+            self._target, self._ref, self._preds, self._time_slices, metrics
+        )
+
+        for s in self._time_slices:
+            for metric in metrics:
+                self._register_component(
+                    f"prediction_rankings_{metric.name}_{s.name}",
+                    PredictionRankingsComponent(
+                        points=self._points,
+                        time_slice=s,
+                        names=self._names,
+                        metric=metric,
+                        metric_res=cnt.metric_res[s][metric.name],
+                    ),
+                )
         return self
 
     def with_predictions_plot(self, figsize=(14, 7)):
@@ -111,6 +137,11 @@ class TSMetrics(object):
     def show(self):
         self.compute()  # this could be more elegant...
         return self._layout_class(self._components)
+
+    def compute_metrics(self, *metrics):
+        return MetricContainer.build(
+            self._target, self._ref, self._preds, self._time_slices, metrics
+        )
 
     def compute(self):
         res = {}
