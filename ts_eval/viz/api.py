@@ -4,6 +4,7 @@ from ts_eval.viz.metrics.metric_container import MetricContainer
 
 from . import time_slices as default_time_slices
 from .components.dataset_description import DatasetDescriptionComponent
+from .components.legend import LegendComponent
 from .components.metrics import MetricsComponent
 from .components.prediction_plot import PredictionPlotComponent
 from .components.prediction_rankings import PredictionRankingsComponent
@@ -97,6 +98,17 @@ class TSMetrics(object):
                         pred_idx=i,
                     ),
                 )
+        # legend should override another legend if already registered
+        self._register_component(
+            "legend",
+            LegendComponent(
+                target=self._target,
+                preds=self._preds,
+                points=self._points,
+                time_slices=self._time_slices,
+                names=self._names,
+            ),
+        )
 
         return self
 
@@ -118,6 +130,18 @@ class TSMetrics(object):
                         metric_res=cnt.metric_res[s][metric.name],
                     ),
                 )
+        # legend should override another legend if already registered
+        self._register_component(
+            "legend",
+            LegendComponent(
+                target=self._target,
+                preds=self._preds,
+                points=self._points,
+                time_slices=self._time_slices,
+                names=self._names,
+            ),
+        )
+
         return self
 
     def with_predictions_plot(self, figsize=(14, 7), cm_name="Dark2", pi=True):

@@ -2,9 +2,9 @@ from ts_eval.viz.eval_table import EvalTable
 
 
 DATA = [
-    [(11.00, None, None, True), (12.123123, None, None, True)],
-    [(11.00, "red", True, False), (12.123123, "yellow", None, False)],
-    [(11.00, "cyan", None, False), (12.123123, "pink", True, False)],
+    [(11.00, None, None, True, None), (12.123123, None, None, True, None)],
+    [(11.00, "red", True, False, None), (12.123123, "yellow", None, False, "red")],
+    [(11.00, "cyan", None, False, None), (12.123123, "pink", True, False, None)],
 ]
 HEADERS = ["mse", "mae"]
 STUBS = ["0", "1", "2"]

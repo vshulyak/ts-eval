@@ -78,4 +78,4 @@ class MetricsComponent(BaseComponent):
         color = "darkorange" if equality is True else color
         warn_sign = ref_same
 
-        return (value, color, warn_sign, is_header)
+        return (value, color, warn_sign, is_header, None)
