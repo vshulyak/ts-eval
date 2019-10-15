@@ -120,7 +120,7 @@ class TSMetrics(object):
                 )
         return self
 
-    def with_predictions_plot(self, figsize=(14, 7)):
+    def with_predictions_plot(self, figsize=(14, 7), cm_name="Dark2", pi=True):
         self._register_component(
             "prediction_plot",
             PredictionPlotComponent(
@@ -130,6 +130,8 @@ class TSMetrics(object):
                 time_slices=self._time_slices,
                 names=self._names,
                 figsize=figsize,
+                cm_name=cm_name,
+                pi=pi,
             ),
         )
 
