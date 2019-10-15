@@ -72,9 +72,8 @@ class MetricResult:
         rest = nanmeanw(self.rest, 0)
         if self.relative:
             assert self.ref is not None, "Reference prediction should be provided"
-            ref = np.repeat(np.expand_dims(self.ref, 2), rest.shape[1], 2)
-            ref = nanmeanw(ref, 0)
-            return 1 - nanmeanw(rest, 0) / ref if self.fv else nanmeanw(rest, 0) / ref
+            ref = nanmeanw(self.ref, 0).reshape(-1, 1)
+            return 1 - rest / ref if self.fv else rest / ref
         return rest
 
     def overall(self):
