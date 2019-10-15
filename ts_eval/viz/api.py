@@ -5,8 +5,8 @@ from ts_eval.viz.metrics.metric_container import MetricContainer
 from . import time_slices as default_time_slices
 from .components.dataset_description import DatasetDescriptionComponent
 from .components.metrics import MetricsComponent
-from .components.prediction_rankings import PredictionRankingsComponent
 from .components.prediction_plot import PredictionPlotComponent
+from .components.prediction_rankings import PredictionRankingsComponent
 from .data_containers import xr_2d_factory, xr_3d_factory
 from .layouts.jupyter_html import JupyterHTMLLayout
 
@@ -68,9 +68,10 @@ class TSMetrics(object):
             "description",
             DatasetDescriptionComponent(
                 target=self._target,
-                pred=self._preds,
+                preds=self._preds,
                 points=self._points,
-                time_slice=None,
+                time_slices=None,
+                names=self._names,
             ),
         )
 
