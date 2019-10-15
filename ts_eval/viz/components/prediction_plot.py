@@ -64,7 +64,7 @@ class PredictionPlotComponent(BaseComponent):
                     color=colors[pi + 1],
                     linestyle="--",
                     linewidth=2,
-                    label=f"predicted {name}",
+                    label=name,
                 )
 
                 # some datasets might have ub/lb missing
