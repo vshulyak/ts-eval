@@ -18,16 +18,16 @@ class LegendComponent(BaseComponent):
         data = [
             [
                 ("&nbsp;", None, False, False, "green"),
-                ("– ranked better (statistically)", None, False, False, None),
+                ("– ranked better<br/>(statistically)", None, False, False, None),
             ],
             [
                 ("&nbsp;", None, False, False, "darkorange"),
-                ("– similar rank (statistically)", None, False, False, None),
+                ("– similar rank<br/>(statistically)", None, False, False, None),
             ],
             [
                 ("*", None, False, False, None),
                 (
-                    "– not different from<br/> reference (statistically)",
+                    "– not different from<br/>reference (statistically)",
                     None,
                     False,
                     False,
