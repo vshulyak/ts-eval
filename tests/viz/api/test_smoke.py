@@ -117,3 +117,32 @@ def test_api__multic_omparison_smoke(dataset_2d, dataset_3d):
         .show()
         ._repr_html_()
     )
+
+
+def test_api__custom_names(dataset_2d, dataset_3d):
+
+    start_date = "2000-01-02"
+    freq = "H"
+
+    preds = [dataset_3d, dataset_3d, dataset_3d, dataset_3d]
+
+    with pytest.raises(AssertionError):
+        (
+            ts_inspect_3d(dataset_2d, *preds, start_date=start_date, freq=freq)
+            .for_horizons(0, 1, 5, 23)
+            .for_time_slices(time_slices.all)
+            .names("1", "2")
+            .with_description()
+            .show()
+            ._repr_html_()
+        )
+
+    (
+        ts_inspect_3d(dataset_2d, *preds, start_date=start_date, freq=freq)
+        .for_horizons(0, 1, 5, 23)
+        .for_time_slices(time_slices.all)
+        .names(*map(str, range(len(preds))))
+        .with_description()
+        .show()
+        ._repr_html_()
+    )

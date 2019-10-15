@@ -45,6 +45,14 @@ class TSMetrics(object):
         self._ref = ref
         return self
 
+    def names(self, *names):
+        """
+        Sets verbose names to prediction datasets
+        """
+        assert len(names) == len(self._preds)
+        self._names = names
+        return self
+
     def for_horizons(self, *points):
         """
         Sets horizons to display
