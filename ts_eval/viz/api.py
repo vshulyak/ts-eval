@@ -1,6 +1,9 @@
+import inspect
+
 from collections import OrderedDict
 
 from ts_eval.viz.metrics.metric_container import MetricContainer
+from ts_eval.viz.utils import get_pretty_var_names
 
 from . import time_slices as default_time_slices
 from .components.dataset_description import DatasetDescriptionComponent
@@ -21,6 +24,7 @@ class TSMetrics(object):
         self._target = target
         self._preds = preds
         self._ref = None
+        self._ref_name = None
         self._layout_class = layout_class
 
         # default points of interest: first and last. Motivation: horizons can be quite big, we don't want to
@@ -30,8 +34,12 @@ class TSMetrics(object):
         self._time_slices = [default_time_slices.all]
         self._components = OrderedDict()
 
-        # TODO: settable with methods
-        self._names = [f"Pred {i}" for i in range(len(self._preds))]
+        # get names
+        self._names = get_pretty_var_names(
+            target_vars=preds,
+            local_vars=inspect.currentframe().f_back.f_locals.items(),
+            fallback_name_prefix="Pred",
+        )
 
     def _register_component(self, key, comp):
         if key in self._components:
@@ -43,6 +51,15 @@ class TSMetrics(object):
         Sets the base model predictions for relative metrics (typically naive/snaive)
         """
         self._ref = ref
+        self._ref_name = (
+            get_pretty_var_names(
+                target_vars=[ref],
+                local_vars=inspect.currentframe().f_back.f_locals.items(),
+                fallback_name_prefix="Ref",
+            )[0]
+            if self._ref_name is None
+            else self._ref_name
+        )
         return self
 
     def names(self, *names):
@@ -51,6 +68,13 @@ class TSMetrics(object):
         """
         assert len(names) == len(self._preds)
         self._names = names
+        return self
+
+    def ref_name(self, name):
+        """
+        Sets verbose names to reference dataset
+        """
+        self._ref_name = name if self._ref_name is None else self._ref_name
         return self
 
     def for_horizons(self, *points):
@@ -81,6 +105,7 @@ class TSMetrics(object):
                 points=self._points,
                 time_slices=None,
                 names=self._names,
+                ref_name=self._ref_name,
             ),
         )
 

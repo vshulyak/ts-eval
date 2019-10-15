@@ -58,3 +58,21 @@ def nphash(arr: np.ndarray):
     return base64.b64encode(hashlib.sha256(arr).digest())[:NPHASH_MAX_LEN].decode(
         "utf-8"
     )
+
+
+def get_pretty_var_names(target_vars, local_vars, fallback_name_prefix):
+    """
+    Gets name of the variable passed into a function,
+    then prettifies it by replacing "_" with spaces and capitalizes every token.
+    """
+    lookup = {id(var_val): var_name for var_name, var_val in local_vars}
+    try:
+        names = [lookup[id(pred)] for pred in target_vars]
+    except KeyError:
+        names_pretty = [f"{fallback_name_prefix} {i}" for i in range(len(target_vars))]
+    else:
+        names_pretty = list(
+            map(lambda x: " ".join(t.title() for t in x.split("_")), names)
+        )
+
+    return names_pretty
