@@ -1,0 +1,5 @@
+include LICENSE *.md *.rst *.toml *.yml *.yaml
+
+# Tests
+include tox.ini .coveragerc *.cfg
+recursive-include tests *.py
