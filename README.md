@@ -9,7 +9,7 @@
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/vshulyak/ts-eval/issues)
 
 ---
-A set of tools to help you analyse time series using Python.
+A set of tools to make time series analysis easier.
 
 ## 🧩 Current features
 
@@ -21,19 +21,26 @@ A set of tools to help you analyse time series using Python.
 * **Naive/Seasonal models for baseline predictions** (with prediction intervals)
 * **Statsmodels n-step evaluation** – helper functions to evaluate n-step ahead forecasts using Statsmodels models or naive/seasonal naive models.
 
-Here's how the Jupyter widget looks like:
+## 👩🏾‍🎨 Widget Preview
 ![Demo Screenshot](images/demo_screenshot.png)
 
-Check out [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/blob/master/examples/basic_usage.ipynb).
+## 👩🏾‍🚒 Demo
+For a more elaborate example, please check out the [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/blob/master/examples/basic_usage.ipynb).
 
-## Installation
+## 🤦🏾‍ Motivation
+
+While working on a long term time series analysis project, I had a need to summarize and store performance metrics
+of different models and compare them. As it's daunting to do this across dozens of notebooks, I huddled over some code
+to do what I want in a few lines of code.
+
+## 👩🏾‍🚀 Installation
 
       pip install ts-eval
 
 
 ## 📋 Release Planning:
 
-* Release 0.3
+* **Release 0.3**
   * travis: add 3.8 default python when it's available
   * docs: supported metrics & API options
   * Maybe use api like Summary in statsmodels MLEModel class, it has extend methods and warn/info messages
@@ -43,18 +50,13 @@ Check out [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/b
   * turn off colored display option
   * a nicer API for raw metrics container
   * codacy badge
-  * coverage badge
-  * travis/circleci badge
   * violin plots to compare predictions – areas can be colored, different metrics on left and right (like relative...)
-* Release 0.4
-  * names of datasets passed in (now default ordinal numbers)
+* **Release 0.4**
   * holiday/fourier features model
   * fix viz module to have less of important stuff
   * a gif with project visualization
   * check shapes of input arrays (target vs preds), now it doesn't raise an error
   * Baseline prediction using target dataset (without explicit calculation, but losing some time points)
-  * Graph: plot confint
-
 
 ## 💡 Ideas
 
