@@ -1,5 +1,16 @@
 # Changelog
 
+
+##  0.2.0 (2019-10-16)
+
+### Features
+
+- Multiple prediction ranking with Friedman Nemenyi posthoc.
+- Visualization of prediction intervals
+- Indication of prediction ranking in a colorful table
+- Rewrite of the internal computation machinery
+
+
 ##  0.1.0 (2019-10-04)
 
 ### Features
