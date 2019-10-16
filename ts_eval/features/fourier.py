@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 FREQ_OFFSETS = {
     "day": pd.offsets.DateOffset(0),  # TODO: test
     "week": pd.offsets.Week(weekday=0),
