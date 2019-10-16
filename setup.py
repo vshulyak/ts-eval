@@ -37,6 +37,9 @@ EXTRAS_REQUIRE["dev"] = (
     + EXTRAS_REQUIRE["debug"]  # NOQA
     + EXTRAS_REQUIRE["extra_runtime_libs"]  # NOQA
 )
+EXTRAS_REQUIRE["tests_and_extra_runtime_libs"] = (
+    EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["extra_runtime_libs"]  # NOQA
+)
 
 
 setuptools.setup(
