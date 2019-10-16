@@ -1,8 +1,8 @@
-from dataclasses import dataclass
 from functools import partial
 
 import numpy as np
 
+from dataclasses import dataclass
 from scipy.stats import friedmanchisquare, rankdata
 from statsmodels.stats.libqsturng import qsturng
 
