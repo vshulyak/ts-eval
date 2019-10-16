@@ -44,7 +44,7 @@ EXTRAS_REQUIRE["tests_and_extra_runtime_libs"] = (
 
 setuptools.setup(
     name="ts-eval",
-    version="0.1.0",
+    version="0.2.0",
     author="Vladimir Shulyak",
     author_email="vladimir@shulyak.net",
     description="Time Series analysis and evaluation tools",
