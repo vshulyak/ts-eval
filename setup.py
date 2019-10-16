@@ -21,7 +21,7 @@ INSTALL_REQUIRES = [
     "jupyter-contrib-nbextensions",
 ]
 EXTRAS_REQUIRE = {
-    "tests": ["hypothesis[numpy]", "pytest"],
+    "tests": ["hypothesis[numpy]", "pytest", "tox", "pre-commit", "coverage"],
     "pypi": ["twine"],
     "debug": ["pdbpp"],
     "extra_runtime_libs": ["holidays>=0.9"],
@@ -50,6 +50,7 @@ setuptools.setup(
         "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
