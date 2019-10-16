@@ -24,17 +24,16 @@ A set of tools to make time series analysis easier.
 ## 👩🏾‍🎨 Widget Preview
 
 In:
-
-    (
-        TSMetrics(target, sm_seas, default)
-        .use_reference(snaive)
-        .for_horizons(0, 1, 5, 23)
-        .for_time_slices(time_slices.all, time_slices.weekend)
-        .with_description()
-        .with_prediction_rankings(mtx.FVrMSE, mtx.FVrMIS)
-        .with_predictions_plot()
-        .show()
-    )
+```
+TSMetrics(target, sm_seas, default)
+.use_reference(snaive)
+.for_horizons(0, 1, 5, 23)
+.for_time_slices(time_slices.all, time_slices.weekend)
+.with_description()
+.with_prediction_rankings(mtx.FVrMSE, mtx.FVrMIS)
+.with_predictions_plot()
+.show()
+```
 
 Out:
 ![Demo Screenshot](images/demo_screenshot.png)
