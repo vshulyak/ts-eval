@@ -22,6 +22,21 @@ A set of tools to make time series analysis easier.
 * **Statsmodels n-step evaluation** – helper functions to evaluate n-step ahead forecasts using Statsmodels models or naive/seasonal naive models.
 
 ## 👩🏾‍🎨 Widget Preview
+
+In:
+
+    (
+        TSMetrics(target, sm_seas, default)
+        .use_reference(snaive)
+        .for_horizons(0, 1, 5, 23)
+        .for_time_slices(time_slices.all, time_slices.weekend)
+        .with_description()
+        .with_prediction_rankings(mtx.FVrMSE, mtx.FVrMIS)
+        .with_predictions_plot()
+        .show()
+    )
+
+Out:
 ![Demo Screenshot](images/demo_screenshot.png)
 
 ## 👩🏾‍🚒 Demo
