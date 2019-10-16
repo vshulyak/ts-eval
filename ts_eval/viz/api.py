@@ -105,6 +105,7 @@ class TSMetrics(object):
                 points=self._points,
                 time_slices=None,
                 names=self._names,
+                ref=self._ref,
                 ref_name=self._ref_name,
             ),
         )
