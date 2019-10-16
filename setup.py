@@ -1,8 +1,13 @@
+import os
+
 import setuptools
 
 
-def read(fname):
-    with open(fname, "r") as fh:
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+def read(*parts):
+    with open(os.path.join(HERE, *parts), "r") as fh:
         return fh.read()
 
 
