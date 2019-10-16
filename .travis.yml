@@ -6,6 +6,6 @@ python:
     - "3.7"
     - "3.8"
 before_install:
-    - sudo apt-get -y install liblapack-dev libblas-dev gfortran
+    - sudo add-apt-repository ppa:deadsnakes && sudo apt-get update && sudo apt-get -y --no-install-recommends install liblapack-dev libblas-dev gfortran python3.8-dev python3.8-distutils
 install: pip install tox-travis
 script: tox
