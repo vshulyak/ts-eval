@@ -7,8 +7,10 @@ matrix:
           env: TOXENV=py36
         - python: 3.7
           env: TOXENV=py37
-        - python: 3.8-dev
+        - python: 3.7
           env: TOXENV=py38
+          install:
+            sudo add-apt-repository ppa:deadsnakes && sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y --no-install-recommends python3.8-dev python3.8-distutils
         - python: 3.7
           env: TOXENV=py37,lint,pypi-description,coverage-report
 install: pip install tox
