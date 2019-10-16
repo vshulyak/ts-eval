@@ -15,19 +15,25 @@ def test_xr_2d_factory__xarray_fmt(dataset_2d):
     xarr = xr_2d_factory(dataset_2d)
 
     assert np.allclose(xarr.mean_.values, time_align(dataset_2d), equal_nan=True)
-    assert xarr.sizes['dt'] == dataset_2d.shape[0] + dataset_2d.shape[1]
-    assert xarr.sizes['h'] == dataset_2d.shape[1]
+    assert xarr.sizes["dt"] == dataset_2d.shape[0] + dataset_2d.shape[1]
+    assert xarr.sizes["h"] == dataset_2d.shape[1]
 
 
 def test_xr_3d_factory__xarray_fmt(dataset_3d):
 
     xarr = xr_3d_factory(dataset_3d)
 
-    assert np.allclose(xarr.upper.values, time_align(dataset_3d[:, :, 0]), equal_nan=True)
-    assert np.allclose(xarr.mean_.values, time_align(dataset_3d[:, :, 1]), equal_nan=True)
-    assert np.allclose(xarr.lower.values, time_align(dataset_3d[:, :, 2]), equal_nan=True)
-    assert xarr.sizes['dt'] == dataset_3d.shape[0] + dataset_3d.shape[1]
-    assert xarr.sizes['h'] == dataset_3d.shape[1]
+    assert np.allclose(
+        xarr.upper.values, time_align(dataset_3d[:, :, 0]), equal_nan=True
+    )
+    assert np.allclose(
+        xarr.mean_.values, time_align(dataset_3d[:, :, 1]), equal_nan=True
+    )
+    assert np.allclose(
+        xarr.lower.values, time_align(dataset_3d[:, :, 2]), equal_nan=True
+    )
+    assert xarr.sizes["dt"] == dataset_3d.shape[0] + dataset_3d.shape[1]
+    assert xarr.sizes["h"] == dataset_3d.shape[1]
 
 
 """
