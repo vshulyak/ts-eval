@@ -1,5 +1,11 @@
 # Changelog
 
+##  0.2.1 (2019-10-18)
+
+### Fixes
+
+Outdated import in wheel version of the package.
+
 
 ##  0.2.0 (2019-10-16)
 

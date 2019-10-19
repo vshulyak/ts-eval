@@ -41,6 +41,8 @@ Out:
 ## 👩🏾‍🚒 Demo
 For a more elaborate example, please check out the [Demo Notebook](https://nbviewer.jupyter.org/github/vshulyak/ts-eval/blob/master/examples/basic_usage.ipynb).
 
+Alternatively, check out [interactive Binder demo](https://mybinder.org/v2/gh/vshulyak/ts-eval/master?filepath=examples%2Fbasic_usage.ipynb)
+
 ## 🤦🏾‍ Motivation
 
 While working on a long term time series analysis project, I had a need to summarize and store performance metrics
@@ -55,6 +57,11 @@ to do what I want in a few lines of code.
 ## 📋 Release Planning:
 
 * **Release 0.3**
+  * remove collection of deps in style [tests_and_bla_bla] to [tests,bla]
+  * links to papers – AvgRelMAE (Davydenko and Fildes, 2013); link to Nemenyi paper / implementations
+  * make graphs with PIs more narrow on 0,1,.. steps as there's too much space left (with an option to turn this off).
+  * better API for the end user – minimize interaction with xarray
+  * pep517 build / wheels / better setup.py as per Hynek
   * travis: add 3.8 default python when it's available
   * docs: supported metrics & API options
   * Maybe use api like Summary in statsmodels MLEModel class, it has extend methods and warn/info messages
@@ -64,6 +71,7 @@ to do what I want in a few lines of code.
   * turn off colored display option
   * a nicer API for raw metrics container
   * codacy badge
+  * boxplots to compare models (as an alternative)
   * violin plots to compare predictions – areas can be colored, different metrics on left and right (like relative...)
 * **Release 0.4**
   * holiday/fourier features model
@@ -100,6 +108,10 @@ to do what I want in a few lines of code.
 * sMAPE & MASE can be added for the jupyter evaluation tables
 * ? Residual stats: since I have residuals => Ljung-Box, Heteroscedasticity test, Jarque-Bera – like in statsmodels results,
   but probably these stats were inspected already by the user... and on which step should they be computed then?
+
+## See also
+
+* https://arch.readthedocs.io/en/latest/multiple-comparison/multiple-comparison_examples.html
 
 
 ## 🤹🏼‍♂️ Development
