@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from scipy.stats import friedmanchisquare, rankdata
 from statsmodels.stats.libqsturng import qsturng
 
-from ts_eval.utils import nanmeanw
 from ts_eval.viz.utils import filter_nan
 
 from .mann_whitney_u import mw_is_equal
@@ -48,7 +47,8 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
     # just return ranks
     if f == 1:
         ranks = np.ones((h, f), dtype=np.uint8)
-        mean_ranks = nanmeanw(arr, 0)
+        # means of one columns with ones will be an array with ones (but we need float)
+        mean_ranks = np.ones((h, f))
         equality_bool_mask = np.full((h, f), False)
         cds = np.zeros((h,))
 
@@ -73,8 +73,9 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
 
         if pre_test(step_arr):
             # H0: datasets not different, just return this information in an appropriate way
-            ranks[hi, :] = nanmeanw(step_arr, 0).argsort() + 1
-            mean_ranks[hi, :] = nanmeanw(step_arr, 0)
+            step_mean_ranks = np.apply_along_axis(rankdata_avg, 1, step_arr).mean(0)
+            ranks[hi, :] = step_mean_ranks.argsort() + 1
+            mean_ranks[hi, :] = step_mean_ranks
             equality_bool_mask[hi, :] = np.full((f,), True)
 
         else:
@@ -174,7 +175,9 @@ def nemenyi(arr: np.ndarray, level=0.95):
             for a, b in zip(sorted_mranks_diff[:-1], sorted_mranks_diff[1:])
         ]
     )
-
+    # import pdb
+    #
+    # pdb.set_trace()
     ranks = mranks.argsort() + 1
     mean_ranks = mranks
 
