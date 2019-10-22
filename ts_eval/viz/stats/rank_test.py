@@ -130,7 +130,7 @@ def nemenyi(arr: np.ndarray, level=0.95):
     assert bool(np.isnan(arr).any()) is False
 
     # get critical distance which depends on the size of the input matrix
-    cd = get_critical_distance(arr)
+    cd = get_critical_distance(arr, level=level)
 
     """
     Get ranks across rows like this:
@@ -184,11 +184,11 @@ def nemenyi(arr: np.ndarray, level=0.95):
     return ranks, mean_ranks, equality_bool_mask, cd
 
 
-def get_critical_distance(x):
+def get_critical_distance(x, level=0.95):
 
     n_rows, n_cols = x.shape
 
-    a = qsturng(0.95, n_cols, np.inf)
+    a = qsturng(level, n_cols, np.inf)
     b = np.sqrt((n_cols * (n_cols + 1)) / (12 * n_rows))
 
     return a * b
