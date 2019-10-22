@@ -65,7 +65,13 @@ def get_pretty_var_names(target_vars, local_vars, fallback_name_prefix):
     Gets name of the variable passed into a function,
     then prettifies it by replacing "_" with spaces and capitalizes every token.
     """
-    lookup = {id(var_val): var_name for var_name, var_val in local_vars}
+    # var names starting from _ are outputs in Jypyter notebook.
+    # so it's a not-always-working hack, but should do the job for majority of cases.
+    lookup = {
+        id(var_val): var_name
+        for var_name, var_val in local_vars
+        if not var_name.startswith("_")
+    }
     try:
         names = [lookup[id(pred)] for pred in target_vars]
     except KeyError:
