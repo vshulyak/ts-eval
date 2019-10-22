@@ -20,6 +20,7 @@ class FriedmanNemenyiResult:
     ranks: np.ndarray
     mean_ranks: np.ndarray
     equality_bool_mask: np.ndarray
+    cds: np.ndarray
 
 
 def rank_test_2d(arr: np.ndarray, level=0.95) -> bool:
@@ -32,6 +33,7 @@ def rank_test_2d(arr: np.ndarray, level=0.95) -> bool:
         ranks=r.ranks[0],
         mean_ranks=r.mean_ranks[0],
         equality_bool_mask=r.equality_bool_mask[0],
+        cds=r.cds[0],
     )
 
 
@@ -48,9 +50,13 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
         ranks = np.ones((h, f), dtype=np.uint8)
         mean_ranks = nanmeanw(arr, 0)
         equality_bool_mask = np.full((h, f), False)
+        cds = np.zeros((h,))
 
         return FriedmanNemenyiResult(
-            ranks=ranks, mean_ranks=mean_ranks, equality_bool_mask=equality_bool_mask
+            ranks=ranks,
+            mean_ranks=mean_ranks,
+            equality_bool_mask=equality_bool_mask,
+            cds=cds,
         )
 
     pre_test = friedman if f >= 3 else mannwhitney
@@ -58,6 +64,7 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
     ranks = np.empty((h, f), dtype=np.uint8)
     mean_ranks = np.empty((h, f))
     equality_bool_mask = np.empty((h, f), dtype=np.bool)
+    cds = np.empty((h,))
 
     for hi in range(arr.shape[1]):
 
@@ -72,14 +79,18 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
 
         else:
             # Ha: at least one is different, run nemenyi to determine ranks
-            ranks_s, mean_ranks_s, equality_bool_mask_s = nemenyi(step_arr)
+            ranks_s, mean_ranks_s, equality_bool_mask_s, cd = nemenyi(step_arr)
 
             ranks[hi, :] = ranks_s
             mean_ranks[hi, :] = mean_ranks_s
             equality_bool_mask[hi, :] = equality_bool_mask_s
+            cds[hi] = cd
 
     return FriedmanNemenyiResult(
-        ranks=ranks, mean_ranks=mean_ranks, equality_bool_mask=equality_bool_mask
+        ranks=ranks,
+        mean_ranks=mean_ranks,
+        equality_bool_mask=equality_bool_mask,
+        cds=cds,
     )
 
 
@@ -170,7 +181,7 @@ def nemenyi(arr: np.ndarray, level=0.95):
     # invert the mask (shows non-equality) => to show equality
     equality_bool_mask = np.invert(mask[original_order_idxs[original_order_idxs]])
 
-    return ranks, mean_ranks, equality_bool_mask
+    return ranks, mean_ranks, equality_bool_mask, cd
 
 
 def get_critical_distance(x):
