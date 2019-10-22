@@ -28,7 +28,9 @@ class SMForecastStrategy(ForecastStrategy):
             self._freq = self.model_fit.data.orig_endog.index.freq
 
     def forecast(self, test_endog, test_exog, h=24, omit_last_horizon=True):
-        assert test_endog.shape == test_exog.shape if test_exog is not None else True
+        assert (
+            test_endog.shape[0] == test_exog.shape[0] if test_exog is not None else True
+        )
 
         preds_batched = []
 
