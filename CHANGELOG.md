@@ -1,5 +1,13 @@
 # Changelog
 
+##  0.2.2 (2019-10-22)
+
+### Fixes
+
+- Fix nan values propagated to Friedman Nemenyi test.
+- Critical distance is returned alongside Friedman Nemenyi test.
+
+
 ##  0.2.1 (2019-10-18)
 
 ### Fixes
