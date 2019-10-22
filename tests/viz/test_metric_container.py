@@ -2,13 +2,21 @@ import numpy as np
 
 from ts_eval.viz import metrics as mtx
 from ts_eval.viz import time_slices
+from ts_eval.viz.metrics.adaptors import adaptor_interval_metric, adaptor_point_metric
 from ts_eval.viz.metrics.metric_container import MetricContainer, MetricResult
 
 
 def _compute_scores(metric, target_slice, data_slices):
     scores = []
     for pred_slice in data_slices:
-        scores += [metric(target_slice.mean_.values, pred_slice.mean_.values)]
+        scores += [metric(*adaptor_point_metric(target_slice, pred_slice))]
+    return np.stack(scores, 2)
+
+
+def _compute_interval_scores(metric, target_slice, data_slices):
+    scores = []
+    for pred_slice in data_slices:
+        scores += [metric(*adaptor_interval_metric(target_slice, pred_slice))]
     return np.stack(scores, 2)
 
 
