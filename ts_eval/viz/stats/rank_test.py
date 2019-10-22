@@ -7,8 +7,12 @@ from scipy.stats import friedmanchisquare, rankdata
 from statsmodels.stats.libqsturng import qsturng
 
 from ts_eval.utils import nanmeanw
+from ts_eval.viz.utils import filter_nan
 
 from .mann_whitney_u import mw_is_equal
+
+
+rankdata_avg = partial(rankdata, method="average")
 
 
 @dataclass
@@ -57,7 +61,8 @@ def rank_test_3d(arr: np.ndarray, level=0.95) -> bool:
 
     for hi in range(arr.shape[1]):
 
-        step_arr = arr[:, hi, :]
+        # filter out dangling NaNs if timestamps for this horizon are not available
+        step_arr = filter_nan(arr[:, hi, :]).reshape(-1, f)
 
         if pre_test(step_arr):
             # H0: datasets not different, just return this information in an appropriate way
@@ -84,6 +89,7 @@ def friedman(arr: np.ndarray, level=0.95) -> bool:
     True = Ha
     """
     assert arr.ndim == 2
+    assert bool(np.isnan(arr).any()) is False
 
     # a shortcut to skip friedman if all arrays are equal.
     # Friedman would return NaN in this case, issuing a warning as well.
@@ -110,6 +116,7 @@ def nemenyi(arr: np.ndarray, level=0.95):
     """
     assert arr.ndim == 2
     assert arr.shape[0] > arr.shape[1]
+    assert bool(np.isnan(arr).any()) is False
 
     # get critical distance which depends on the size of the input matrix
     cd = get_critical_distance(arr)
@@ -125,8 +132,7 @@ def nemenyi(arr: np.ndarray, level=0.95):
 
     # rank data by each row.
     # note that we can't use a simpler algorithm like "arr.argsort().argsort() + 1" as we need to handle ties.
-    rankdatap = partial(rankdata, method="average")
-    ranks = np.apply_along_axis(rankdatap, 1, arr)
+    ranks = np.apply_along_axis(rankdata_avg, 1, arr)
 
     # find means per column
     mranks = ranks.mean(0)
