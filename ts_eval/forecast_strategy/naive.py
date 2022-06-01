@@ -25,6 +25,12 @@ class BaseNaiveForecastStrategy(ForecastStrategy):
             self._freq = self.endog.index.freq
 
     def forecast(self, h, omit_last_horizon=True):
+        """
+        Produces forecasts for horizon `h` using expanding window
+        (increasing train window size over multiple iterations).
+        The number of produced forecasts is limited by the minimum
+        train length `train_test_split_index` and the horizon `h`.
+        """
         preds_batched = []
 
         ht = h if omit_last_horizon else 0

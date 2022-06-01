@@ -6,7 +6,7 @@ from ts_eval.viz.data_containers import xr_2d_factory
 
 def create_sliding_dataset(dataset, h=1):
     """
-    Compute sliding window dataset (useful for target array creation)
+    Compute sliding (with fixed length = `h`) window dataset (useful for target array creation)
     """
     return np.stack([dataset[i : i + h] for i in range(dataset.shape[0] - h)])
 
